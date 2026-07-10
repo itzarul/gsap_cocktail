@@ -23,6 +23,29 @@ const Menu = () => {
         })
     }, [currentIndex]);
 
+    useGSAP(() => {
+        gsap.timeline({
+            scrollTrigger:{
+                trigger: '#menu', // <-- FIXED: Added the hashtag!
+                start: 'top top',
+                end: 'bottom top',
+                scrub: true,
+            }
+        })
+            .fromTo('#m-right-leaf',
+                { y: 0, opacity: 1 },
+                { y: 200, opacity: 0 },
+                0
+            )
+            // START STATE: y is 0, opacity is 1 (fully visible)
+            // END STATE: moves up 200px, opacity drops to 0 (invisible)
+            .fromTo('#m-left-leaf',
+                { y: 0, opacity: 1 },
+                { y: -200, opacity: 0 },
+                0
+            );
+    }, []); // <-- Empty brackets mean this sets up once and never restarts!
+
     const totalCocktails = allCocktails.length;
 
     const goToSlide = (index) => {
@@ -65,7 +88,7 @@ const Menu = () => {
 
             <div className="content">
                 <div className="arrows">
-                    <button className="text-left pl-10 lg:pl-17 " onClick={() => goToSlide(currentIndex - 1)}>
+                    <button className="text-left pl-10 lg:pl-16 " onClick={() => goToSlide(currentIndex - 1)}>
                         <span>{prevCocktail.name}</span>
                         <img src="/images/right-arrow.png" alt="right-arrow" aria-hidden="true" />
                     </button>
